@@ -7,7 +7,12 @@ typedef struct coordinate3d {
   int z;
 } coordinate3d;
 
-void fromStr(coordinate3d *c, char *str);
+typedef struct coordinate2d {
+  int x;
+  int y;
+} coordinate2d;
+
+void from_str(coordinate3d *c, char *str);
 void display(coordinate3d c);
 
 #endif

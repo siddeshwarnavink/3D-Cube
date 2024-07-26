@@ -6,7 +6,7 @@
 #include "coordinate.h"
 #include "utils.h"
 
-void fromStr(coordinate3d *c, char *str) {
+void from_str(coordinate3d *c, char *str) {
   const uint s_len = strlen(str) - 3;
   char *s = (char *)malloc(s_len * sizeof(char));
   strncpy(s, str + 1, s_len);

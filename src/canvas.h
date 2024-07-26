@@ -1,7 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#define CANVAS_WIDTH 40
+#define CANVAS_WIDTH 20
 #define CANVAS_HEIGHT 20
 
 #include <sys/types.h>

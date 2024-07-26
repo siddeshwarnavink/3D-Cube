@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "canvas.h"
 
@@ -24,17 +25,23 @@ void destroy_canvas(canvas *c) {
 }
 
 void render_canvas(canvas *c) {
-  for (int y = 0; y < CANVAS_HEIGHT; y++) {
-    for (int x = 0; x < CANVAS_WIDTH; x++) {
-      for (int i = 0; i < c->items_len; i++) {
-        canvas_item *itm = c->items[i];
+  for (;;) {
+    printf("\033[2J");
+    printf("\033[H");
+    for (int y = 0; y < CANVAS_HEIGHT; y++) {
+      for (int x = 0; x < CANVAS_WIDTH; x++) {
+        for (int i = 0; i < c->items_len; i++) {
+          canvas_item *itm = c->items[i];
 
-        if (itm->point != NULL && itm->point->x == x && itm->point->y == y) {
-          printf("x");
+          // render point
+          if (itm->point != NULL && itm->point->x == x && itm->point->y == y) {
+            printf("x");
+          }
         }
+        printf("·");
       }
-      printf(" ");
+      printf("\n");
     }
-    printf("\n");
+    usleep(33000);
   }
 }

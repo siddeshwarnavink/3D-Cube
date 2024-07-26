@@ -17,32 +17,26 @@ int main() {
   char line[50];
 
   while (fgets(line, 50, file)) {
-    coordinate3d *c = (coordinate3d *)malloc(sizeof(coordinate3d));
-    if (c == NULL) {
+    coordinate3d *co = (coordinate3d *)malloc(sizeof(coordinate3d));
+    if (co == NULL) {
       perror("Ran out of memory. Goodbye!");
       fclose(file);
       return EXIT_FAILURE;
     }
 
-    from_str(c, line);
-    // display(*c);
-    free(c);
+    from_str(co, line);
+
+    coordinate2d *p = to_2d(co);
+    p->x = ((p->x * 0.5) + 0.5) * CANVAS_WIDTH / 2;
+    p->y = ((p->y * 0.5) + 0.5) * CANVAS_HEIGHT / 2;
+
+    canvas_item *itm = (canvas_item *)malloc(sizeof(coordinate2d));
+    itm->point = p;
+
+    append_canvas(&c, itm);
+
+    free(co);
   }
-
-  coordinate2d *p1 = (coordinate2d *)malloc(sizeof(coordinate2d));
-  p1->x = 1;
-  p1->y = 1;
-  canvas_item ci1;
-  ci1.point = p1;
-
-  coordinate2d *p2 = (coordinate2d *)malloc(sizeof(coordinate2d));
-  p2->x = 12;
-  p2->y = 3;
-  canvas_item ci2;
-  ci2.point = p2;
-
-  append_canvas(&c, &ci1);
-  append_canvas(&c, &ci2);
 
   render_canvas(&c);
 

@@ -2,17 +2,19 @@
 #define COORDINATE_H
 
 typedef struct coordinate3d {
-  int x;
-  int y;
-  int z;
+  float x;
+  float y;
+  float z;
 } coordinate3d;
 
 typedef struct coordinate2d {
-  int x;
-  int y;
+  float x;
+  float y;
 } coordinate2d;
 
 void from_str(coordinate3d *c, char *str);
-void display(coordinate3d c);
+coordinate2d *to_2d(coordinate3d *c);
+void display_3dp(coordinate3d p);
+void display_2dp(coordinate2d p);
 
 #endif

@@ -28,4 +28,15 @@ void from_str(coordinate3d *c, char *str) {
   free(s);
 }
 
-void display(coordinate3d c) { printf("X: %d Y: %d Z: %d\n", c.x, c.y, c.z); }
+coordinate2d *to_2d(coordinate3d *c) {
+  coordinate2d *c2d = (coordinate2d *)malloc(sizeof(coordinate2d));
+  c2d->x = c->x / c->z;
+  c2d->y = c->y / c->z;
+  return c2d;
+}
+
+void display_2dp(coordinate2d p) { printf("X: %.2f Y: %.2f\n", p.x, p.y); }
+
+void display_3dp(coordinate3d p) {
+  printf("X: %.2f Y: %.2f Z: %.2f\n", p.x, p.y, p.z);
+}

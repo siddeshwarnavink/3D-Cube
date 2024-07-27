@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 #include "canvas.h"
+#include "cube.h"
 
 void create_canvas(canvas *c) {
   c->items = (canvas_item **)malloc(sizeof(canvas_item *));
@@ -18,8 +19,14 @@ void append_canvas(canvas *c, canvas_item *ci) {
 
 void destroy_canvas(canvas *c) {
   for (int i = 0; i < c->items_len; i++) {
-    if (c->items[i]->point != NULL) {
-      free(c->items[i]->point);
+    canvas_item *itm = c->items[i];
+    switch (itm->type) {
+    case ITEM_TYPE_CUBE:
+      destroy_cube(itm->data.cube);
+      break;
+    case ITEM_TYPE_2DPOINT:
+      free(itm->data.point);
+      break;
     }
   }
 }
@@ -29,9 +36,15 @@ void render_canvas(canvas *c) {
     printf("\033[2J\033[u");
     for (int i = 0; i < c->items_len; i++) {
       canvas_item *itm = c->items[i];
-      // render point
-      if (itm->point != NULL) {
-        printf("\033[%d;%dHx", (int)itm->point->x, (int)itm->point->y);
+
+      switch (itm->type) {
+      case ITEM_TYPE_CUBE:
+        render_cube(itm->data.cube);
+        break;
+      case ITEM_TYPE_2DPOINT:
+        printf("\033[%d;%dHx", (int)itm->data.point->x,
+               (int)itm->data.point->y);
+        break;
       }
     }
     usleep(33000);

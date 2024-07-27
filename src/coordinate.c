@@ -3,6 +3,7 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include "canvas.h"
 #include "coordinate.h"
 #include "utils.h"
 
@@ -32,6 +33,8 @@ coordinate2d *to_2d(coordinate3d *c) {
   coordinate2d *c2d = (coordinate2d *)malloc(sizeof(coordinate2d));
   c2d->x = c->x / c->z;
   c2d->y = c->y / c->z;
+  c2d->x = ((c2d->x * 0.5) + 0.5) * CANVAS_WIDTH / 2;
+  c2d->y = ((c2d->y * 0.5) + 0.5) * CANVAS_HEIGHT / 2;
   return c2d;
 }
 

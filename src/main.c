@@ -3,6 +3,7 @@
 
 #include "canvas.h"
 #include "coordinate.h"
+#include "cube.h"
 
 int main() {
   FILE *file = fopen("./res/points.txt", "r");
@@ -14,33 +15,31 @@ int main() {
   canvas c;
   create_canvas(&c);
 
+  canvas_item *cu = (canvas_item *)malloc(sizeof(canvas_item));
+  if (cu == NULL) {
+    perror("No cube for you. Until next time.");
+    fclose(file);
+    return EXIT_FAILURE;
+  }
+
+  cu->type = ITEM_TYPE_CUBE;
+
+  int cu_points_len = 0;
+  create_cube(&(cu->data.cube));
+
   char line[50];
 
   while (fgets(line, 50, file)) {
-    coordinate3d *co = (coordinate3d *)malloc(sizeof(coordinate3d));
-    if (co == NULL) {
-      perror("Ran out of memory. Goodbye!");
-      fclose(file);
-      return EXIT_FAILURE;
-    }
-
-    from_str(co, line);
-
-    coordinate2d *p = to_2d(co);
-    p->x = ((p->x * 0.5) + 0.5) * CANVAS_WIDTH / 2;
-    p->y = ((p->y * 0.5) + 0.5) * CANVAS_HEIGHT / 2;
-
-    canvas_item *itm = (canvas_item *)malloc(sizeof(coordinate2d));
-    itm->point = p;
-
-    append_canvas(&c, itm);
-
-    free(co);
+    from_str(cu->data.cube->points[cu_points_len], line);
+    cu_points_len++;
   }
+
+  fclose(file);
+
+  append_canvas(&c, cu);
 
   render_canvas(&c);
 
-  fclose(file);
   destroy_canvas(&c);
 
   return 0;

@@ -4,7 +4,7 @@
 
 #include "buffer.h"
 
-void create_buffer(buffer *b, uint max) {
+void create_buffer(buffer *b,  unsigned int max) {
   b->value = (char *)malloc(max * sizeof(char));
   if (b->value == NULL) {
     fprintf(stderr, "Memory allocation failed\n");
@@ -16,7 +16,7 @@ void create_buffer(buffer *b, uint max) {
 }
 
 void append_buffer(buffer *b, const char *s) {
-  uint s_len = strlen(s);
+   unsigned int s_len = strlen(s);
   if (b->size + s_len >= b->max) {
     fprintf(stderr, "Buffer overflow, cannot append string\n\n");
     printf("===========\n");

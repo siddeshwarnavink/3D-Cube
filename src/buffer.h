@@ -1,17 +1,15 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
-#include <sys/types.h>
-
 // a simple string buffer
 typedef struct buffer {
   char *value;
-  uint size;
-  uint max;
+   unsigned int size;
+   unsigned int max;
 } buffer;
 
 // create a buffer object
-void create_buffer(buffer *b, uint max);
+void create_buffer(buffer *b,  unsigned int max);
 // add string to the buffer
 void append_buffer(buffer *b, const char *s);
 // print the buffer value to stdout

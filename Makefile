@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = 
+CFLAGS = -lm
 TARGET = out/main.out
 
 SRC_DIR = src

@@ -8,6 +8,7 @@
 void create_cube(cube **c) {
   *c = (cube *)malloc(sizeof(cube));
   (*c)->points = (coordinate3d **)malloc(8 * sizeof(coordinate3d *));
+  (*c)->deg = 0;
 
   for (int i = 0; i < 8; i++) {
     (*c)->points[i] = (coordinate3d *)malloc(sizeof(coordinate3d));
@@ -40,9 +41,9 @@ void render_cube(cube *c, buffer *buf) {
   coordinate2d **screen_points =
       (coordinate2d **)malloc(8 * sizeof(coordinate2d *));
 
-  // map 3d points to 2d
   for (int i = 0; i < 8; i++) {
-    screen_points[i] = to_2d(c->points[i]);
+    // screen_points[i] = to_2d(c->points[i]);
+    screen_points[i] = project_point(c->points[i], c->deg);
   }
 
   // screen_points 0-3 square A, 4-7 square B
@@ -55,4 +56,9 @@ void render_cube(cube *c, buffer *buf) {
   }
 
   free(screen_points);
+}
+
+void rotate_cube(cube *c, float deg) {
+  float sum = c->deg + deg;
+  c->deg = (sum > 360) ? 360 - sum : sum;
 }

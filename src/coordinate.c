@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
+#include <math.h>
 
 #include "buffer.h"
 #include "canvas.h"
@@ -9,7 +9,7 @@
 #include "utils.h"
 
 void from_str(coordinate3d *c, char *str) {
-  const uint s_len = strlen(str) - 3;
+  const  unsigned int s_len = strlen(str) - 3;
   char *s = (char *)malloc(s_len * sizeof(char));
   strncpy(s, str + 1, s_len);
 
@@ -37,6 +37,16 @@ coordinate2d *to_2d(coordinate3d *c) {
   c2d->x = ((c2d->x * 0.5) + 0.5) * CANVAS_WIDTH / 2;
   c2d->y = ((c2d->y * 0.5) + 0.5) * CANVAS_HEIGHT / 4;
   return c2d;
+}
+
+coordinate2d *project_point(coordinate3d *c, float theta) {
+  float y_rotated = c->y * cos(theta) - c->z * sin(theta);
+  float z_rotated = c->y * sin(theta) + c->z * cos(theta);
+
+  coordinate2d *screen_point = (coordinate2d *)malloc(sizeof(coordinate2d));
+  screen_point->x= (int)(c->x * CANVAS_WIDTH / (2 * DISTANCE)) + CANVAS_WIDTH / 2;
+  screen_point->y= (int)(-y_rotated * CANVAS_HEIGHT / (2 * DISTANCE)) + CANVAS_HEIGHT / 2;
+  return screen_point;
 }
 
 void render_point(coordinate2d *c, buffer *buf) {

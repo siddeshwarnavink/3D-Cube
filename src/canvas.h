@@ -3,8 +3,7 @@
 
 #define CANVAS_WIDTH 30
 #define CANVAS_HEIGHT 30
-
-#include <sys/types.h>
+#define DISTANCE 4
 
 #include "buffer.h"
 #include "coordinate.h"
@@ -24,7 +23,7 @@ typedef struct canvas_item {
 
 typedef struct canvas {
   buffer *buf;
-  uint items_len;
+   unsigned int items_len;
   canvas_item **items;
 } canvas;
 

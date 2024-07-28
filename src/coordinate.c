@@ -1,7 +1,7 @@
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 
 #include "buffer.h"
 #include "canvas.h"
@@ -9,7 +9,7 @@
 #include "utils.h"
 
 void from_str(coordinate3d *c, char *str) {
-  const  unsigned int s_len = strlen(str) - 3;
+  const unsigned int s_len = strlen(str) - 3;
   char *s = (char *)malloc(s_len * sizeof(char));
   strncpy(s, str + 1, s_len);
 
@@ -44,13 +44,16 @@ coordinate2d *project_point(coordinate3d *c, float theta) {
   float z_rotated = c->y * sin(theta) + c->z * cos(theta);
 
   coordinate2d *screen_point = (coordinate2d *)malloc(sizeof(coordinate2d));
-  screen_point->x= (int)(c->x * CANVAS_WIDTH / (2 * DISTANCE)) + CANVAS_WIDTH / 2;
-  screen_point->y= (int)(-y_rotated * CANVAS_HEIGHT / (2 * DISTANCE)) + CANVAS_HEIGHT / 2;
+  screen_point->x =
+      (int)(c->x * CANVAS_WIDTH / (2 * DISTANCE)) + CANVAS_WIDTH / 2;
+  screen_point->y =
+      (int)(-y_rotated * CANVAS_HEIGHT / (2 * DISTANCE)) + CANVAS_HEIGHT / 2;
   return screen_point;
 }
 
 void render_point(coordinate2d *c, buffer *buf) {
-  append_buffer(buf, string_printf("\033[%d;%dH\u2022", (int)c->y, (int)c->x));
+  append_buffer(buf, string_printf("\033[%d;%dH\u2022",
+                                   CANVAS_HEIGHT - (int)c->y, (int)c->x));
 }
 
 void display_2dp(coordinate2d p) { printf("X: %.2f Y: %.2f\n", p.x, p.y); }

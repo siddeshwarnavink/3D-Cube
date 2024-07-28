@@ -3,6 +3,7 @@
 #include <unistd.h>
 
 #include "canvas.h"
+#include "coordinate.h"
 #include "cube.h"
 
 void create_canvas(canvas *c) {
@@ -42,8 +43,7 @@ void render_canvas(canvas *c) {
         render_cube(itm->data.cube);
         break;
       case ITEM_TYPE_2DPOINT:
-        printf("\033[%d;%dHx", (int)itm->data.point->x,
-               (int)itm->data.point->y);
+        render_point(itm->data.point);
         break;
       }
     }

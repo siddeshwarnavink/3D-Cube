@@ -34,8 +34,12 @@ coordinate2d *to_2d(coordinate3d *c) {
   c2d->x = c->x / c->z;
   c2d->y = c->y / c->z;
   c2d->x = ((c2d->x * 0.5) + 0.5) * CANVAS_WIDTH / 2;
-  c2d->y = ((c2d->y * 0.5) + 0.5) * CANVAS_HEIGHT / 2;
+  c2d->y = ((c2d->y * 0.5) + 0.5) * CANVAS_HEIGHT / 4;
   return c2d;
+}
+
+void render_point(coordinate2d *c) {
+  printf("\033[%d;%dH\u2022", (int)c->y, (int)c->x);
 }
 
 void display_2dp(coordinate2d p) { printf("X: %.2f Y: %.2f\n", p.x, p.y); }

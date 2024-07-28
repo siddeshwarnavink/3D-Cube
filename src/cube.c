@@ -24,9 +24,16 @@ void destroy_cube(cube *c) {
 }
 
 void render_square(coordinate2d *p1, coordinate2d *p2, coordinate2d *p3) {
+  /*render_point(p1);*/
+  /*render_point(p2);*/
+  /*render_point(p3);*/
+
   for (int y = p1->y; y <= p3->y; y++) {
     for (int x = p1->x; x <= p2->x; x++) {
-      printf("\033[%d;%dH*", x, y);
+      coordinate2d p;
+      p.x = x;
+      p.y = y;
+      render_point(&p);
     }
   }
 }

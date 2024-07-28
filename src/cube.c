@@ -5,6 +5,7 @@
 #include "coordinate.h"
 #include "cube.h"
 #include "line.h"
+#include "utils.h"
 
 void create_cube(cube **c) {
   *c = (cube *)malloc(sizeof(cube));
@@ -34,6 +35,8 @@ void render_cube(cube *c, buffer *buf) {
     screen_points[i] = project_point(c->points[i], c->deg);
   }
 
+  append_buffer(buf, string_printf("\033[0;0Hθ=%.1f", c->deg));
+
   // square A
   render_line(screen_points[0], screen_points[1], buf);
   render_line(screen_points[1], screen_points[2], buf);
@@ -44,7 +47,7 @@ void render_cube(cube *c, buffer *buf) {
   render_line(screen_points[4], screen_points[5], buf);
   render_line(screen_points[5], screen_points[6], buf);
   render_line(screen_points[6], screen_points[7], buf);
-  render_line(screen_points[7], screen_points[0], buf);
+  render_line(screen_points[7], screen_points[4], buf);
 
   // lines in middle
   render_line(screen_points[0], screen_points[4], buf);
@@ -62,5 +65,5 @@ void render_cube(cube *c, buffer *buf) {
 
 void rotate_cube(cube *c, float deg) {
   float sum = c->deg + deg;
-  c->deg = (sum > 360) ? 360 - sum : sum;
+  c->deg = (sum > 360) ? 0 : sum;
 }

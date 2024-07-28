@@ -15,6 +15,7 @@ canvas c;
 canvas_item *cu;
 
 void cleanup() {
+  printf("\033[?25h");
   if (file_open) {
     file_open = false;
     fclose(file);
@@ -32,6 +33,7 @@ void handle_sigint(int sig) {
 
 int main() {
   signal(SIGINT, handle_sigint);
+  printf("\033[?25l");
 
   file = fopen("./res/points.txt", "r");
   if (file == NULL) {

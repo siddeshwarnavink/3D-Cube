@@ -4,7 +4,7 @@
 #include "buffer.h"
 #include "coordinate.h"
 #include "cube.h"
-#include "utils.h"
+#include "line.h"
 
 void create_cube(cube **c) {
   *c = (cube *)malloc(sizeof(cube));
@@ -24,35 +24,6 @@ void destroy_cube(cube *c) {
   }
   free(c->points);
   free(c);
-}
-
-// bresenham algorithm
-void render_line(coordinate2d *p1, coordinate2d *p2, buffer *buf) {
-  int x0 = (int)p1->x;
-  int y0 = (int)p1->y;
-  int x1 = (int)p2->x;
-  int y1 = (int)p2->y;
-
-  int dx = abs(x1 - x0);
-  int dy = abs(y1 - y0);
-  int sx = (x0 < x1) ? 1 : -1;
-  int sy = (y0 < y1) ? 1 : -1;
-  int err = dx - dy;
-
-  while (1) {
-    append_buffer(buf, string_printf("\033[%d;%dH\u2022", y0, x0));
-    if (x0 == x1 && y0 == y1)
-      break;
-    int e2 = 2 * err;
-    if (e2 > -dy) {
-      err -= dy;
-      x0 += sx;
-    }
-    if (e2 < dx) {
-      err += dx;
-      y0 += sy;
-    }
-  }
 }
 
 void render_cube(cube *c, buffer *buf) {

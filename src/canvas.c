@@ -51,6 +51,6 @@ void render_canvas(canvas *c) {
     }
     render_buffer(c->buf);
     clear_buffer(c->buf);
-    usleep(33000);
+    usleep(330000);
   }
 }

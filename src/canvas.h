@@ -2,7 +2,7 @@
 #define RENDERER_H
 
 #define CANVAS_WIDTH 30
-#define CANVAS_HEIGHT 30
+#define CANVAS_HEIGHT 15
 #define DISTANCE 4
 
 #include "buffer.h"
@@ -23,7 +23,7 @@ typedef struct canvas_item {
 
 typedef struct canvas {
   buffer *buf;
-   unsigned int items_len;
+  unsigned int items_len;
   canvas_item **items;
 } canvas;
 

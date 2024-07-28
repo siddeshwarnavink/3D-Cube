@@ -49,8 +49,10 @@ coordinate2d *project_point(coordinate3d *c, float theta_x, float theta_y) {
 }
 
 void render_point(coordinate2d *c, buffer *buf) {
-  append_buffer(buf, string_printf("\033[%d;%dH\u2022",
-                                   CANVAS_HEIGHT - (int)c->y, (int)c->x));
+  char *point_str =
+      string_printf("\033[%d;%dH\u2022", CANVAS_HEIGHT - (int)c->y, (int)c->x);
+  append_buffer(buf, point_str);
+  free(point_str);
 }
 
 void display_2dp(coordinate2d p) { printf("X: %.2f Y: %.2f\n", p.x, p.y); }

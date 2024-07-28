@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdlib.h>
 
 #include "buffer.h"
 #include "luminous.h"
@@ -12,8 +13,10 @@ float calculate_brightness(int x, int y) {
 
 void set_color(float brightness, buffer *buf) {
   int intensity = (int)(brightness * 255);
-  append_buffer(buf, string_printf("\033[38;2;%d;%d;%dm", intensity, intensity,
-                                   intensity));
+  char *color_str =
+      string_printf("\033[38;2;%d;%d;%dm", intensity, intensity, intensity);
+  append_buffer(buf, color_str);
+  free(color_str);
 }
 
 void reset_color(buffer *buf) { append_buffer(buf, "\033[0m"); }

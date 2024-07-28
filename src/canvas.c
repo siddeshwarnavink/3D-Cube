@@ -30,7 +30,9 @@ void destroy_canvas(canvas *c) {
       free(itm->data.point);
       break;
     }
+    free(itm);
   }
+  free(c->items);
 }
 
 void render_canvas(canvas *c) {

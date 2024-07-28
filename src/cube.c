@@ -36,8 +36,10 @@ void render_cube(cube *c, buffer *buf) {
     screen_points[i] = project_point(c->points[i], c->theta_x, c->theta_y);
   }
 
-  append_buffer(
-      buf, string_printf("\033[0;0Hθx=%.1f; θy=%.1f", c->theta_x, c->theta_y));
+  char *debug_str =
+      string_printf("\033[0;0Hθx=%.1f; θy=%.1f", c->theta_x, c->theta_y);
+  append_buffer(buf, debug_str);
+  free(debug_str);
 
   // square A
   render_line(screen_points[0], screen_points[1], buf);

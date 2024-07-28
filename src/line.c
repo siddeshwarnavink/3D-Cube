@@ -19,8 +19,10 @@ void render_line(coordinate2d *p1, coordinate2d *p2, buffer *buf) {
   while (1) {
     float brightness = calculate_brightness(x0, y0);
     set_color(brightness, buf);
-    append_buffer(buf, string_printf("\033[%d;%dH\u2022", y0, x0));
+    char *line_str = string_printf("\033[%d;%dH\u2022", y0, x0);
+    append_buffer(buf, line_str);
     reset_color(buf);
+    free(line_str);
 
     if (x0 == x1 && y0 == y1) {
       break;

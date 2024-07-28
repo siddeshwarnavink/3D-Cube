@@ -10,7 +10,8 @@
 void create_cube(cube **c) {
   *c = (cube *)malloc(sizeof(cube));
   (*c)->points = (coordinate3d **)malloc(8 * sizeof(coordinate3d *));
-  (*c)->deg = 0;
+  (*c)->theta_x = 0;
+  (*c)->theta_y = 10;
 
   for (int i = 0; i < 8; i++) {
     (*c)->points[i] = (coordinate3d *)malloc(sizeof(coordinate3d));
@@ -32,10 +33,11 @@ void render_cube(cube *c, buffer *buf) {
       (coordinate2d **)malloc(8 * sizeof(coordinate2d *));
 
   for (int i = 0; i < 8; i++) {
-    screen_points[i] = project_point(c->points[i], c->deg);
+    screen_points[i] = project_point(c->points[i], c->theta_x, c->theta_y);
   }
 
-  append_buffer(buf, string_printf("\033[0;0Hθ=%.1f", c->deg));
+  append_buffer(
+      buf, string_printf("\033[0;0Hθx=%.1f; θy=%.1f", c->theta_x, c->theta_y));
 
   // square A
   render_line(screen_points[0], screen_points[1], buf);
@@ -64,6 +66,6 @@ void render_cube(cube *c, buffer *buf) {
 }
 
 void rotate_cube(cube *c, float deg) {
-  float sum = c->deg + deg;
-  c->deg = (sum > 360) ? 0 : sum;
+  float sum = c->theta_y + deg;
+  c->theta_y = (sum > 360) ? 0 : sum;
 }

@@ -6,7 +6,8 @@
 
 typedef struct cube {
   struct coordinate3d **points;
-  float deg;
+  float theta_x;
+  float theta_y;
 } cube;
 
 void create_cube(cube **c);

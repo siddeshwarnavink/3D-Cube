@@ -42,7 +42,7 @@ void render_canvas(canvas *c) {
       switch (itm->type) {
       case ITEM_TYPE_CUBE:
         render_cube(itm->data.cube, c->buf);
-        rotate_cube(itm->data.cube, 10);
+        rotate_cube(itm->data.cube, 0.1);
         break;
       case ITEM_TYPE_2DPOINT:
         render_point(itm->data.point, c->buf);
@@ -51,6 +51,6 @@ void render_canvas(canvas *c) {
     }
     render_buffer(c->buf);
     clear_buffer(c->buf);
-    usleep(330000);
+    usleep(33000);
   }
 }

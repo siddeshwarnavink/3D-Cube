@@ -30,29 +30,21 @@ void from_str(coordinate3d *c, char *str) {
   free(s);
 }
 
-coordinate2d *project_point(coordinate3d *c, float theta) {
-  /*
-  // For rotating along x-axis
-  float y_rotated = c->y * cos(theta) - c->z * sin(theta);
-  float z_rotated = c->y * sin(theta) + c->z * cos(theta);
+coordinate2d *project_point(coordinate3d *c, float theta_x, float theta_y) {
+  float cos_theta_x = cos(theta_x);
+  float sin_theta_x = sin(theta_x);
+  float cos_theta_y = cos(theta_y);
+  float sin_theta_y = sin(theta_y);
 
-  coordinate2d *screen_point = (coordinate2d *)malloc(sizeof(coordinate2d));
-  screen_point->x =
-      (int)(c->x * CANVAS_WIDTH / (2 * DISTANCE)) + CANVAS_WIDTH / 2;
-  screen_point->y =
-      (int)(-y_rotated * CANVAS_HEIGHT / (2 * DISTANCE)) + CANVAS_HEIGHT / 2;
-  return screen_point;
-  */
-
-  // For rotating along y-axis
-  float x_rotated = c->x * cos(theta) + c->z * sin(theta);
-  float z_rotated = -c->x * sin(theta) + c->z * cos(theta);
+  float x_rotated = c->x * cos_theta_y + c->z * sin_theta_y;
+  float y_rotated = c->y * cos_theta_x - c->z * sin_theta_x * cos_theta_y;
+  float z_rotated = -c->x * sin_theta_y + c->z * cos_theta_y * cos_theta_x;
 
   coordinate2d *screen_point = (coordinate2d *)malloc(sizeof(coordinate2d));
   screen_point->x =
       (int)(x_rotated * CANVAS_WIDTH / (2 * DISTANCE)) + CANVAS_WIDTH / 2;
   screen_point->y =
-      (int)(-c->y * CANVAS_HEIGHT / (2 * DISTANCE)) + CANVAS_HEIGHT / 2;
+      (int)(-y_rotated * CANVAS_HEIGHT / (2 * DISTANCE)) + CANVAS_HEIGHT / 2;
   return screen_point;
 }
 

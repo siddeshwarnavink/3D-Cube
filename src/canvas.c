@@ -1,12 +1,13 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "buffer.h"
 #include "canvas.h"
 #include "coordinate.h"
 #include "cube.h"
 
-void create_canvas(canvas *c) {
+void create_canvas(canvas *c, buffer *b) {
+  c->buf = b;
   c->items = (canvas_item **)malloc(sizeof(canvas_item *));
   c->items_len = 0;
 }
@@ -34,19 +35,21 @@ void destroy_canvas(canvas *c) {
 
 void render_canvas(canvas *c) {
   for (;;) {
-    printf("\033[2J\033[u");
+    append_buffer(c->buf, "\033[2J\033[u");
     for (int i = 0; i < c->items_len; i++) {
       canvas_item *itm = c->items[i];
 
       switch (itm->type) {
       case ITEM_TYPE_CUBE:
-        render_cube(itm->data.cube);
+        render_cube(itm->data.cube, c->buf);
         break;
       case ITEM_TYPE_2DPOINT:
-        render_point(itm->data.point);
+        render_point(itm->data.point, c->buf);
         break;
       }
     }
+    render_buffer(c->buf);
+    clear_buffer(c->buf);
     usleep(33000);
   }
 }

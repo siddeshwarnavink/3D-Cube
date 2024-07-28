@@ -3,6 +3,7 @@
 #include <string.h>
 #include <sys/types.h>
 
+#include "buffer.h"
 #include "canvas.h"
 #include "coordinate.h"
 #include "utils.h"
@@ -38,8 +39,8 @@ coordinate2d *to_2d(coordinate3d *c) {
   return c2d;
 }
 
-void render_point(coordinate2d *c) {
-  printf("\033[%d;%dH\u2022", (int)c->y, (int)c->x);
+void render_point(coordinate2d *c, buffer *buf) {
+  append_buffer(buf, string_printf("\033[%d;%dH\u2022", (int)c->y, (int)c->x));
 }
 
 void display_2dp(coordinate2d p) { printf("X: %.2f Y: %.2f\n", p.x, p.y); }

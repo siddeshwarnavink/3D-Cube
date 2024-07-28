@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "buffer.h"
 #include "coordinate.h"
 #include "cube.h"
 
@@ -23,18 +24,19 @@ void destroy_cube(cube *c) {
   free(c);
 }
 
-void render_square(coordinate2d *p1, coordinate2d *p2, coordinate2d *p3) {
+void render_square(buffer *buf, coordinate2d *p1, coordinate2d *p2,
+                   coordinate2d *p3) {
   for (int y = p1->y; y <= p3->y; y++) {
     for (int x = p1->x; x <= p2->x; x++) {
       coordinate2d p;
       p.x = x;
       p.y = y;
-      render_point(&p);
+      render_point(&p, buf);
     }
   }
 }
 
-void render_cube(cube *c) {
+void render_cube(cube *c, buffer *buf) {
   coordinate2d **screen_points =
       (coordinate2d **)malloc(8 * sizeof(coordinate2d *));
 
@@ -44,8 +46,8 @@ void render_cube(cube *c) {
   }
 
   // screen_points 0-3 square A, 4-7 square B
-  render_square(screen_points[0], screen_points[1], screen_points[2]);
-  render_square(screen_points[4], screen_points[5], screen_points[6]);
+  render_square(buf, screen_points[0], screen_points[1], screen_points[2]);
+  render_square(buf, screen_points[4], screen_points[5], screen_points[6]);
 
   // cleanup
   for (int i = 0; i < 8; i++) {

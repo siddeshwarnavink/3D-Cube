@@ -1,20 +1,26 @@
 #include <signal.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "buffer.h"
 #include "canvas.h"
 #include "coordinate.h"
 #include "cube.h"
 
 FILE *file;
+bool file_open = true;
+buffer b;
 canvas c;
 canvas_item *cu;
 
 void cleanup() {
-  if (file != NULL) {
+  if (file_open) {
+    file_open = false;
     fclose(file);
   }
   destroy_canvas(&c);
+  destroy_buffer(&b);
 }
 
 void handle_sigint(int sig) {
@@ -34,7 +40,8 @@ int main() {
     return EXIT_FAILURE;
   }
 
-  create_canvas(&c);
+  create_buffer(&b, 2048);
+  create_canvas(&c, &b);
 
   cu = (canvas_item *)malloc(sizeof(canvas_item));
   if (cu == NULL) {
@@ -54,8 +61,6 @@ int main() {
     from_str(cu->data.cube->points[cu_points_len], line);
     cu_points_len++;
   }
-
-  fclose(file);
 
   append_canvas(&c, cu);
   render_canvas(&c);

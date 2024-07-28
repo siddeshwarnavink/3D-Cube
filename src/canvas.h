@@ -6,6 +6,7 @@
 
 #include <sys/types.h>
 
+#include "buffer.h"
 #include "coordinate.h"
 #include "cube.h"
 
@@ -22,11 +23,12 @@ typedef struct canvas_item {
 } canvas_item;
 
 typedef struct canvas {
+  buffer *buf;
   uint items_len;
   canvas_item **items;
 } canvas;
 
-void create_canvas(canvas *c);
+void create_canvas(canvas *c, buffer *b);
 void destroy_canvas(canvas *c);
 void append_canvas(canvas *c, canvas_item *ci);
 void render_canvas(canvas *c);

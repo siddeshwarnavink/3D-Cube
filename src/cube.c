@@ -11,7 +11,7 @@
 void create_cube(cube **c) {
   *c = (cube *)malloc(sizeof(cube));
   (*c)->points = (coordinate3d **)malloc(8 * sizeof(coordinate3d *));
-  (*c)->theta_x = 0.3;
+  (*c)->theta_x = 0.2;
   (*c)->theta_y = 10;
 
   for (int i = 0; i < 8; i++) {
@@ -45,7 +45,9 @@ void shade_square(coordinate2d *p1, coordinate2d *p2, coordinate2d *p3,
 
       if ((cp1 >= 0 && cp2 >= 0 && cp3 >= 0 && cp4 >= 0) ||
           (cp1 <= 0 && cp2 <= 0 && cp3 <= 0 && cp4 <= 0)) {
-        float brightness = calculate_brightness(x, y);
+        const float z =
+            (p1->prev_z + p2->prev_z + p3->prev_z + p4->prev_z) / 4.0;
+        float brightness = calculate_brightness(x, y, z);
         set_color(brightness, buf);
         char *shade_str = string_printf("\033[%d;%dH@", y, x);
         append_buffer(buf, shade_str);
@@ -64,28 +66,18 @@ void render_cube(cube *c, buffer *buf) {
     screen_points[i] = project_point(c->points[i], c->theta_x, c->theta_y);
   }
 
-  // char *debug_str =
-  //     string_printf("\033[0;0Hθx=%.1f; θy=%.1f", c->theta_x, c->theta_y);
-  // append_buffer(buf, debug_str);
-  // free(debug_str);
-
-  // // square B (back)
   shade_square(screen_points[4], screen_points[5], screen_points[6],
-               screen_points[7], buf);
-
-  // side squares
+               screen_points[7], buf); // Back face
   shade_square(screen_points[0], screen_points[3], screen_points[4],
-               screen_points[7], buf);
-  shade_square(screen_points[0], screen_points[1], screen_points[4],
-               screen_points[5], buf);
-  shade_square(screen_points[1], screen_points[2], screen_points[5],
-               screen_points[6], buf);
-  shade_square(screen_points[2], screen_points[3], screen_points[6],
-               screen_points[7], buf);
-
-  // // square A (front)
+               screen_points[7], buf); // Left face
+  shade_square(screen_points[0], screen_points[1], screen_points[5],
+               screen_points[4], buf); // Bottom face
+  shade_square(screen_points[1], screen_points[2], screen_points[6],
+               screen_points[5], buf); // Right face
+  shade_square(screen_points[2], screen_points[3], screen_points[7],
+               screen_points[6], buf); // Top face
   shade_square(screen_points[0], screen_points[1], screen_points[2],
-               screen_points[3], buf);
+               screen_points[3], buf); // Front face
 
   // cleanup
   for (int i = 0; i < 8; i++) {

@@ -12,6 +12,7 @@ typedef struct coordinate3d {
 typedef struct coordinate2d {
   float x;
   float y;
+  float prev_z;
 } coordinate2d;
 
 void from_str(coordinate3d *c, char *str);

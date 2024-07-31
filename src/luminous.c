@@ -5,8 +5,9 @@
 #include "luminous.h"
 #include "utils.h"
 
-float calculate_brightness(int x, int y) {
-  float distance = sqrt(pow(x - LIGHT_X, 2) + pow(y - LIGHT_Y, 2));
+float calculate_brightness(int x, int y, float z) {
+  float distance =
+      sqrt(pow(x - LIGHT_X, 2) + pow(y - LIGHT_Y, 2) + pow(z - LIGHT_Z, 2));
   float brightness = fmax(0, 1 - distance / LIGHT_DISTANCE);
   return brightness;
 }

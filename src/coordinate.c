@@ -45,6 +45,7 @@ coordinate2d *project_point(coordinate3d *c, float theta_x, float theta_y) {
       (int)(x_rotated * CANVAS_WIDTH / (2 * DISTANCE)) + CANVAS_WIDTH / 2;
   screen_point->y =
       (int)(-y_rotated * CANVAS_HEIGHT / (2 * DISTANCE)) + CANVAS_HEIGHT / 2;
+  screen_point->prev_z = c->z;
   return screen_point;
 }
 

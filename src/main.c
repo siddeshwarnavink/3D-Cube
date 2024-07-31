@@ -42,7 +42,7 @@ int main() {
     return EXIT_FAILURE;
   }
 
-  create_buffer(&b, 2048 * 2);
+  create_buffer(&b, 20480);
   create_canvas(&c, &b);
 
   cu = (canvas_item *)malloc(sizeof(canvas_item));

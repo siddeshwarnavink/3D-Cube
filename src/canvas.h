@@ -1,8 +1,8 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#define CANVAS_WIDTH 30
-#define CANVAS_HEIGHT 15
+#define CANVAS_WIDTH 35
+#define CANVAS_HEIGHT 20
 #define DISTANCE 4
 
 #include "buffer.h"

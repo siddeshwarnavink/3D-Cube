@@ -11,8 +11,8 @@
 void create_cube(cube **c) {
   *c = (cube *)malloc(sizeof(cube));
   (*c)->points = (coordinate3d **)malloc(8 * sizeof(coordinate3d *));
-  (*c)->theta_x = 0.2;
-  (*c)->theta_y = 10;
+  (*c)->theta_x = -0.2;
+  (*c)->theta_y = 0;
 
   for (int i = 0; i < 8; i++) {
     (*c)->points[i] = (coordinate3d *)malloc(sizeof(coordinate3d));
@@ -49,7 +49,8 @@ void shade_square(coordinate2d *p1, coordinate2d *p2, coordinate2d *p3,
             (p1->prev_z + p2->prev_z + p3->prev_z + p4->prev_z) / 4.0;
         float brightness = calculate_brightness(x, y, z);
         set_color(brightness, buf);
-        char *shade_str = string_printf("\033[%d;%dH@", y, x);
+        char sym = get_symbol(brightness);
+        char *shade_str = string_printf("\033[%d;%dH%c", y, x, sym);
         append_buffer(buf, shade_str);
         reset_color(buf);
         free(shade_str);

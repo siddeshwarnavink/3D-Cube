@@ -12,6 +12,11 @@ float calculate_brightness(int x, int y, float z) {
   return brightness;
 }
 
+char get_symbol(float brightness) {
+  int index = roundf(brightness * 10);
+  return ".,-~:;=!*#$@"[index];
+}
+
 void set_color(float brightness, buffer *buf) {
   int intensity = (int)(brightness * 255);
   char *color_str =

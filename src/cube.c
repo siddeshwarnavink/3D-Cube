@@ -64,34 +64,28 @@ void render_cube(cube *c, buffer *buf) {
     screen_points[i] = project_point(c->points[i], c->theta_x, c->theta_y);
   }
 
-  char *debug_str =
-      string_printf("\033[0;0Hθx=%.1f; θy=%.1f", c->theta_x, c->theta_y);
-  append_buffer(buf, debug_str);
-  free(debug_str);
+  // char *debug_str =
+  //     string_printf("\033[0;0Hθx=%.1f; θy=%.1f", c->theta_x, c->theta_y);
+  // append_buffer(buf, debug_str);
+  // free(debug_str);
 
-  // square A (front)
-  shade_square(screen_points[0], screen_points[1], screen_points[2],
-               screen_points[3], buf);
-
-  // side squares
-  shade_square(screen_points[1], screen_points[2], screen_points[5],
-               screen_points[6], buf);
-  shade_square(screen_points[0], screen_points[1], screen_points[4],
-               screen_points[5], buf);
-  shade_square(screen_points[0], screen_points[3], screen_points[4],
-               screen_points[7], buf);
-  shade_square(screen_points[2], screen_points[3], screen_points[6],
-               screen_points[7], buf);
-
-  // top & bottom
-  shade_square(screen_points[2], screen_points[3], screen_points[6],
-               screen_points[7], buf);
-  shade_square(screen_points[0], screen_points[1], screen_points[4],
-               screen_points[5], buf);
-
-  // square B (back)
+  // // square B (back)
   shade_square(screen_points[4], screen_points[5], screen_points[6],
                screen_points[7], buf);
+
+  // side squares
+  shade_square(screen_points[0], screen_points[3], screen_points[4],
+               screen_points[7], buf);
+  shade_square(screen_points[0], screen_points[1], screen_points[4],
+               screen_points[5], buf);
+  shade_square(screen_points[1], screen_points[2], screen_points[5],
+               screen_points[6], buf);
+  shade_square(screen_points[2], screen_points[3], screen_points[6],
+               screen_points[7], buf);
+
+  // // square A (front)
+  shade_square(screen_points[0], screen_points[1], screen_points[2],
+               screen_points[3], buf);
 
   // cleanup
   for (int i = 0; i < 8; i++) {

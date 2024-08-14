@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -lm
-TARGET = out/main.out
+TARGET = cube
 
 SRC_DIR = src
 OUT_DIR = out
